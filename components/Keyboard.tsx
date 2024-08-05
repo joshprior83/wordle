@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   row: {
     //backgroundColor: "blue",
     flexDirection: "row",
-    flex: 0.33,
+    flex: 0.33, //row height
     marginVertical: 5,
     justifyContent: "center",
   },

@@ -5,15 +5,14 @@ import { ThemedView } from "@/components/ThemedView";
 import { Keyboard } from "@/components/Keyboard";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { Board } from "@/components/Board";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme() ?? "light";
   return (
     <>
       <ThemedView style={styles.main}>
-        <ThemedText style={{ color: Colors[colorScheme].text }}>
-          asdfasdf
-        </ThemedText>
+        <Board />
       </ThemedView>
       <ThemedView style={styles.keyboard}>
         <Keyboard />
