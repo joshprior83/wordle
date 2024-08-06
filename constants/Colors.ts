@@ -14,12 +14,10 @@ export const Colors = {
     icon: "#687076",
     tabIconDefault: "#687076",
     tabIconSelected: tintColorLight,
-    keyBg: "#d3d6da",
-    keyCorrect: "#6aaa64",
-    keyAbsent: "#787c7e",
-    letterCorrect: "#6aaa64", //same as key
-    letterAbsent: "#787c7e", //same as key
-    letterPresent: "#c9b458",
+    unused: "#d3d6da",
+    correct: "#6aaa64",
+    absent: "#787c7e",
+    present: "#c9b458",
   },
   dark: {
     text: "#ECEDEE",
@@ -28,11 +26,9 @@ export const Colors = {
     icon: "#9BA1A6",
     tabIconDefault: "#9BA1A6",
     tabIconSelected: tintColorDark,
-    keyBg: "#818384",
-    keyCorrect: "#538d4e",
-    keyAbsent: "#3a3a3c",
-    letterCorrect: "#538d4e", //same as key
-    letterAbsent: "#3a3a3c", //same as key
-    letterPresent: "#b59f3b",
+    unused: "#818384",
+    correct: "#538d4e",
+    absent: "#3a3a3c",
+    present: "#b59f3b",
   },
 };

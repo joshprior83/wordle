@@ -1,6 +1,5 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, ColorSchemeName } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
-import Key from "./Key";
 import { ThemedText } from "./ThemedText";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -13,38 +12,16 @@ export function Tile({
   tileState: string;
 }) {
   const colorScheme = useColorScheme() ?? "light";
-  function getBgColor() {
-    if (tileState === "CORRECT") {
-      return Colors[colorScheme].letterCorrect;
-    }
-    if (tileState === "PRESENT") {
-      return Colors[colorScheme].letterPresent;
-    }
-    if (tileState === "ABSENT") {
-      return Colors[colorScheme].letterAbsent;
-    }
-  }
-  function getBorderColor() {
-    if (!tileState || tileState === "EMPTY") {
-      return Colors[colorScheme].letterAbsent;
-    }
-    if (tileState === "CORRECT") {
-      return Colors[colorScheme].letterCorrect;
-    }
-    if (tileState === "PRESENT") {
-      return Colors[colorScheme].letterPresent;
-    }
-    if (tileState === "ABSENT") {
-      return Colors[colorScheme].letterAbsent;
-    }
-  }
   return (
     <ThemedView
       style={[
         styles.container,
         {
-          borderColor: getBorderColor(),
-          backgroundColor: getBgColor(),
+          borderColor: Colors[colorScheme][tileState as keyof ColorSchemeName],
+          backgroundColor:
+            tileState !== "unused"
+              ? Colors[colorScheme][tileState as keyof ColorSchemeName]
+              : "none",
         },
       ]}
     >
@@ -70,7 +47,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 2,
+    marginHorizontal: 3,
   },
   tile: {
     fontSize: 38,
