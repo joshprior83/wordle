@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ThemedView } from "@/components/ThemedView";
 
 import { Keyboard } from "@/components/Keyboard";
 import { Board } from "@/components/Board";
 import Toast from "react-native-root-toast";
 import wordList from "../utils/5words.json"; // assert { type: "json" };
+import LottieView from "lottie-react-native";
 
 export function Game() {
   //const randomElement = array[Math.floor(Math.random() * array.length)];
@@ -16,6 +17,8 @@ export function Game() {
   const [guesses, setGuesses] = useState<string[]>([]);
   //const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentGuess, setCurrentGuess] = useState<string>("");
+  const [gameStatus, setGameStatus] = useState<string>("PLAYING");
+  const confettiRef = useRef<LottieView>(null);
   const enum KeyState {
     UNUSED = "unused",
     ABSENT = "absent",
@@ -56,36 +59,56 @@ export function Game() {
     { key: "DEL", row: 3, style: KeyState.UNUSED },
   ]);
 
+  useEffect(() => {
+    if (gameStatus === "WON") {
+      if (confettiRef.current) {
+        confettiRef.current.play(0);
+      }
+    }
+  }, [gameStatus]);
+
   const handleKeyPress = (letter: string) => {
     console.log(`log from Game - pressed ${letter}`);
     //set tile to letter pressed if under 5 letters in row
     //ignore letter presses after 5 letters
-    if (letter === "ENTER") {
-      handleEnter();
-      return;
-    }
-    if (letter === "DEL") {
-      handleDel();
-      return;
-    }
-    if (currentGuess.length < 5) {
-      setCurrentGuess(currentGuess + letter);
+    if (gameStatus !== "WON") {
+      if (letter === "ENTER") {
+        handleEnter();
+        return;
+      }
+      if (letter === "DEL") {
+        handleDel();
+        return;
+      }
+      if (currentGuess.length < 5) {
+        setCurrentGuess(currentGuess + letter);
+      }
     }
   };
 
   function handleEnter() {
-    console.log("handleEnter Func");
+    if (currentGuess === word) {
+      setGameStatus("WON");
+    }
     if (currentGuess.length === 5 && valid()) {
       setGuesses([...guesses, currentGuess]);
       setCurrentGuess("");
       //setCurrentRow(currentRow + 1);
       updateKeyboard();
+      if (guesses.length === 5) {
+        Toast.show("Better luck next time.", {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP + 50,
+          backgroundColor: "#fff",
+          textColor: "#151718",
+          animation: true,
+          opacity: 0.9,
+        });
+      }
     }
-    //ToastAndroid.show("Request sent successfully!", ToastAndroid.SHORT);
   }
 
   function handleDel() {
-    console.log("handleDel Func");
     if (currentGuess.length > 0) {
       setCurrentGuess(currentGuess.slice(0, -1));
     }
@@ -142,6 +165,15 @@ export function Game() {
 
   return (
     <>
+      {gameStatus === "WON" && (
+        <LottieView
+          style={styles.confetti}
+          source={require("../assets/confetti.json")}
+          ref={confettiRef}
+          loop={false}
+          //autoPlay={true}
+        />
+      )}
       <ThemedView style={styles.main}>
         <Board word={word} guesses={guesses} currentGuess={currentGuess} />
       </ThemedView>
@@ -160,5 +192,15 @@ const styles = StyleSheet.create({
   keyboard: {
     flexDirection: "row",
     flex: 0.25,
+  },
+  confetti: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+    pointerEvents: "none",
+    height: "80%",
   },
 });
