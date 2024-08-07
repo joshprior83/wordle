@@ -7,14 +7,20 @@ import DelIcon from "./DelIcon";
 export default function Key({
   letter,
   keyState,
+  onKeyPress,
 }: {
   letter: string;
   keyState: string;
+  onKeyPress: Function;
 }) {
   const colorScheme = useColorScheme() ?? "light";
-
+  function handlePress() {
+    onKeyPress(letter);
+    console.log(`log from Key - pressed ${letter}`);
+  }
   return (
     <Pressable
+      onPress={handlePress}
       style={[
         styles.key,
         {
