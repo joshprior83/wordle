@@ -3,11 +3,21 @@ import { Tabs } from "expo-router";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Game } from "@/components/Game";
-import { View, StyleSheet, Pressable, Text } from "react-native";
+import { RefreshControl, ScrollView } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const [id, setId] = useState("123");
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setId(Math.random().toString());
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 50);
+  }, []);
+
   return (
     // <Tabs
     //   screenOptions={{
@@ -34,39 +44,19 @@ export default function TabLayout() {
     //   />
     // </Tabs>
     <React.StrictMode>
-      <Game key={id} />
-      <View style={styles.container}>
-        <Pressable
-          style={styles.resetButton}
-          onPress={() => {
-            setId(Math.random().toString());
-          }}
-        >
-          <Text style={styles.buttonText}>Reset</Text>
-        </Pressable>
-      </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ width: "100%" }}
+        style={{
+          flexDirection: "row",
+          flex: 1,
+        }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <Game key={id} />
+      </ScrollView>
     </React.StrictMode>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    //backgroundColor: "orange",
-    flex: 0.1,
-    justifyContent: "center",
-  },
-  resetButton: {
-    borderWidth: 0,
-    borderRadius: 20,
-    backgroundColor: "blue",
-    marginHorizontal: 40,
-    paddingVertical: 5,
-    justifyContent: "flex-end",
-  },
-  buttonText: {
-    fontSize: 30,
-    textAlign: "center",
-    color: "white",
-    zIndex: 1001,
-  },
-});
