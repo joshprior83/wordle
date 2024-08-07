@@ -5,15 +5,13 @@ import { ThemedView } from "@/components/ThemedView";
 
 import { Keyboard } from "@/components/Keyboard";
 import { Board } from "@/components/Board";
-import wordsArr from "../utils/5words.json"; // assert { type: "json" };
+import Toast from "react-native-root-toast";
+import wordList from "../utils/5words.json"; // assert { type: "json" };
 
 export function Game() {
   //const randomElement = array[Math.floor(Math.random() * array.length)];
   const word = useMemo(() => {
-    const asdf =
-      wordsArr[Math.floor(Math.random() * wordsArr.length)].toUpperCase();
-    console.log("word: ", asdf);
-    return asdf;
+    return wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
   }, []);
   const [guesses, setGuesses] = useState<string[]>([]);
   //const [currentRow, setCurrentRow] = useState<number>(0);
@@ -77,16 +75,17 @@ export function Game() {
 
   function handleEnter() {
     console.log("handleEnter Func");
-    if (currentGuess.length === 5) {
+    if (currentGuess.length === 5 && valid()) {
       setGuesses([...guesses, currentGuess]);
       setCurrentGuess("");
       //setCurrentRow(currentRow + 1);
       updateKeyboard();
     }
+    //ToastAndroid.show("Request sent successfully!", ToastAndroid.SHORT);
   }
 
   function handleDel() {
-    console.log("handleEnter Func");
+    console.log("handleDel Func");
     if (currentGuess.length > 0) {
       setCurrentGuess(currentGuess.slice(0, -1));
     }
@@ -117,6 +116,28 @@ export function Game() {
         }
       }
     }
+  }
+
+  function valid() {
+    const startTime = performance.now();
+    //const firstLetter = word[0];
+    const valid = wordList.includes(currentGuess.toLowerCase());
+    console.log("currentGuess", currentGuess.toLowerCase());
+    //console.log(wordsArr.includes(word));
+    const endTime = performance.now();
+    console.log("milliseconds for valid: ", endTime - startTime);
+    console.log(valid);
+    if (!valid) {
+      Toast.show("Not in word list.", {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.TOP + 50,
+        backgroundColor: "#fff",
+        textColor: "#151718",
+        animation: true,
+        opacity: 0.9,
+      });
+    }
+    return valid;
   }
 
   return (
