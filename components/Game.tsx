@@ -90,6 +90,16 @@ export function Game() {
     if (currentGuess === word) {
       setGameStatus("WON");
     }
+    if (currentGuess.length !== 5) {
+      Toast.show("Not enough letters.", {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.TOP + 50,
+        backgroundColor: "#fff",
+        textColor: "#151718",
+        animation: true,
+        opacity: 0.9,
+      });
+    }
     if (currentGuess.length === 5 && valid()) {
       setGuesses([...guesses, currentGuess]);
       setCurrentGuess("");
