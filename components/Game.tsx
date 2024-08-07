@@ -1,13 +1,20 @@
 import { StyleSheet } from "react-native";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ThemedView } from "@/components/ThemedView";
 
 import { Keyboard } from "@/components/Keyboard";
 import { Board } from "@/components/Board";
+import wordsArr from "../utils/5words.json"; // assert { type: "json" };
 
 export function Game() {
-  const [word, setWord] = useState<string>("DADDY");
+  //const randomElement = array[Math.floor(Math.random() * array.length)];
+  const word = useMemo(() => {
+    const asdf =
+      wordsArr[Math.floor(Math.random() * wordsArr.length)].toUpperCase();
+    console.log("word: ", asdf);
+    return asdf;
+  }, []);
   const [guesses, setGuesses] = useState<string[]>([]);
   //const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentGuess, setCurrentGuess] = useState<string>("");
