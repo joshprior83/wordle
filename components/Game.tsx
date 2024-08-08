@@ -106,7 +106,7 @@ export function Game() {
       //setCurrentRow(currentRow + 1);
       updateKeyboard();
       if (guesses.length === 5) {
-        Toast.show("Better luck next time.", {
+        Toast.show(`Better luck next time. The word was ${word}`, {
           duration: Toast.durations.LONG,
           position: Toast.positions.TOP + 50,
           backgroundColor: "#fff",
