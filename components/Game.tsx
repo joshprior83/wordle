@@ -10,10 +10,10 @@ import wordList from "../utils/5words.json"; // assert { type: "json" };
 import LottieView from "lottie-react-native";
 
 export function Game() {
-  //const randomElement = array[Math.floor(Math.random() * array.length)];
   const word = useMemo(() => {
     return wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
   }, []);
+  //const [word, setWord] = useState<string>("LANES");
   const [guesses, setGuesses] = useState<string[]>([]);
   //const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentGuess, setCurrentGuess] = useState<string>("");
