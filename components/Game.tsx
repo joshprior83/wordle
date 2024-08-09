@@ -6,16 +6,16 @@ import { ThemedView } from "@/components/ThemedView";
 import { Keyboard } from "@/components/Keyboard";
 import { Board } from "@/components/Board";
 import Toast from "react-native-root-toast";
-import wordList from "../utils/5words.json"; // assert { type: "json" };
+import wordList from "../utils/5words.json";
 import LottieView from "lottie-react-native";
+import { isValid } from "@/utils/utils";
 
 export function Game() {
   const word = useMemo(() => {
     return wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
   }, []);
-  //const [word, setWord] = useState<string>("LANES");
+  //const [word, setWord] = useState<string>("SALES");
   const [guesses, setGuesses] = useState<string[]>([]);
-  //const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [gameStatus, setGameStatus] = useState<string>("PLAYING");
   const confettiRef = useRef<LottieView>(null);
@@ -69,8 +69,6 @@ export function Game() {
 
   const handleKeyPress = (letter: string) => {
     console.log(`log from Game - pressed ${letter}`);
-    //set tile to letter pressed if under 5 letters in row
-    //ignore letter presses after 5 letters
     if (gameStatus !== "WON") {
       if (letter === "ENTER") {
         handleEnter();
@@ -91,7 +89,7 @@ export function Game() {
       setGameStatus("WON");
     }
     if (currentGuess.length !== 5) {
-      Toast.show("Not enough letters.", {
+      Toast.show("Not enough letters. 😐", {
         duration: Toast.durations.LONG,
         position: Toast.positions.TOP + 50,
         backgroundColor: "#fff",
@@ -100,13 +98,23 @@ export function Game() {
         opacity: 0.9,
       });
     }
-    if (currentGuess.length === 5 && valid()) {
-      setGuesses([...guesses, currentGuess]);
-      setCurrentGuess("");
-      //setCurrentRow(currentRow + 1);
-      updateKeyboard();
-      if (guesses.length === 5) {
-        Toast.show(`Better luck next time. The word was ${word}`, {
+    if (currentGuess.length === 5) {
+      if (isValid(currentGuess)) {
+        setGuesses([...guesses, currentGuess]);
+        setCurrentGuess("");
+        updateKeyboard();
+        if (guesses.length === 5) {
+          Toast.show(`Better luck next time. The word was ${word} 🤯`, {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP + 50,
+            backgroundColor: "#fff",
+            textColor: "#151718",
+            animation: true,
+            opacity: 0.9,
+          });
+        }
+      } else {
+        Toast.show("Not in word list. 🤔", {
           duration: Toast.durations.LONG,
           position: Toast.positions.TOP + 50,
           backgroundColor: "#fff",
@@ -133,7 +141,6 @@ export function Game() {
         setKeys(newKeys);
       }
       if (word[i] !== currentGuess[i]) {
-        //update keyboard -> correct
         if (word.includes(currentGuess[i])) {
           let newKeys = [...keys];
           let keyIndex = newKeys.findIndex((x) => x.key === currentGuess[i]);
@@ -151,28 +158,6 @@ export function Game() {
     }
   }
 
-  function valid() {
-    const startTime = performance.now();
-    //const firstLetter = word[0];
-    const valid = wordList.includes(currentGuess.toLowerCase());
-    console.log("currentGuess", currentGuess.toLowerCase());
-    //console.log(wordsArr.includes(word));
-    const endTime = performance.now();
-    console.log("milliseconds for valid: ", endTime - startTime);
-    console.log(valid);
-    if (!valid) {
-      Toast.show("Not in word list.", {
-        duration: Toast.durations.LONG,
-        position: Toast.positions.TOP + 50,
-        backgroundColor: "#fff",
-        textColor: "#151718",
-        animation: true,
-        opacity: 0.9,
-      });
-    }
-    return valid;
-  }
-
   return (
     <>
       {gameStatus === "WON" && (
@@ -181,7 +166,6 @@ export function Game() {
           source={require("../assets/confetti.json")}
           ref={confettiRef}
           loop={false}
-          //autoPlay={true}
         />
       )}
       <ThemedView style={styles.main}>
