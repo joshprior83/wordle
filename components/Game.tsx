@@ -166,6 +166,7 @@ export function Game() {
           source={require("../assets/confetti.json")}
           ref={confettiRef}
           loop={false}
+          webStyle={styles.confetti}
         />
       )}
       <ThemedView style={styles.main}>
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
   main: {
     flex: 0.73,
     paddingTop: 50,
+    zIndex: 1,
   },
   keyboard: {
     flexDirection: "row",
