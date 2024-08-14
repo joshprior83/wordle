@@ -4,15 +4,13 @@ import { Tile } from "./Tile";
 import { tileState } from "@/utils/utils";
 import uuid from "react-native-uuid";
 
-export function Board({
-  word,
-  guesses,
-  currentGuess,
-}: {
+interface BoardProps {
   word: string;
   guesses: string[];
   currentGuess: string;
-}) {
+}
+
+export function Board({ word, guesses, currentGuess }: BoardProps) {
   const enum TileState {
     UNUSED = "unused",
     ABSENT = "absent",
@@ -25,16 +23,13 @@ export function Board({
       {/* existing Gussses */}
       {guesses.map((guess, index) => (
         <ThemedView key={uuid.v4().toString()} style={styles.row}>
-          {guesses[index]
-            //.padEnd(5)
-            .split("")
-            .map((letter, i) => (
-              <Tile
-                key={uuid.v4().toString()}
-                letter={letter}
-                tileState={tileState(word, guess, i)}
-              />
-            ))}
+          {guesses[index].split("").map((letter, i) => (
+            <Tile
+              key={uuid.v4().toString()}
+              letter={letter}
+              tileState={tileState(word, guess, i)}
+            />
+          ))}
         </ThemedView>
       ))}
       {/* Current Guess */}

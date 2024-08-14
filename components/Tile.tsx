@@ -4,13 +4,12 @@ import { ThemedText } from "./ThemedText";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
-export function Tile({
-  letter,
-  tileState,
-}: {
+interface TileProps {
   letter: string;
   tileState: string;
-}) {
+}
+
+export function Tile({ letter, tileState }: TileProps) {
   const colorScheme = useColorScheme() ?? "light";
   return (
     <ThemedView

@@ -2,13 +2,12 @@ import { StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import Key from "./Key";
 
-export function Keyboard({
-  keys,
-  onKeyPress,
-}: {
+interface KeyboardProps {
   keys: { key: string; row: number; style: string }[];
   onKeyPress: Function;
-}) {
+}
+
+export function Keyboard({ keys, onKeyPress }: KeyboardProps) {
   const enum KeyState {
     UNUSED = "unused",
     ABSENT = "absent",

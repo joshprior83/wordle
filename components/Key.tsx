@@ -4,15 +4,13 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import DelIcon from "./DelIcon";
 
-export default function Key({
-  letter,
-  keyState,
-  onKeyPress,
-}: {
+interface KeyProps {
   letter: string;
   keyState: string;
   onKeyPress: Function;
-}) {
+}
+
+export default function Key({ letter, keyState, onKeyPress }: KeyProps) {
   const colorScheme = useColorScheme() ?? "light";
   function handlePress() {
     onKeyPress(letter);
