@@ -1,4 +1,4 @@
-import { RefreshControl, ScrollView } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Game } from "@/components/Game";
@@ -20,11 +20,8 @@ export default function Index() {
     <React.StrictMode>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ width: "100%" }}
-        style={{
-          flexDirection: "row",
-          flex: 1,
-        }}
+        contentContainerStyle={styles.contentContainer}
+        style={styles.container}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -34,3 +31,13 @@ export default function Index() {
     </React.StrictMode>
   );
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    width: "100%",
+  },
+  container: {
+    flexDirection: "row",
+    flex: 1,
+  },
+});

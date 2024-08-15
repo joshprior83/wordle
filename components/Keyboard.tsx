@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    flex: 0.33, //row height
+    flex: 0.33,
     marginVertical: 5,
     justifyContent: "center",
   },
