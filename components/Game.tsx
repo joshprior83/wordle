@@ -102,7 +102,7 @@ export function Game() {
         setGuesses([...guesses, currentGuess]);
         setCurrentGuess("");
         updateKeyboard();
-        if (guesses.length === 5) {
+        if (guesses.length === 5 && currentGuess !== word) {
           Toast.show(`Better luck next time. The word was ${word} 🤯`, {
             duration: Toast.durations.LONG,
             position: Toast.positions.TOP + 50,
