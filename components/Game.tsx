@@ -68,7 +68,6 @@ export function Game() {
   }, [gameStatus]);
 
   const handleKeyPress = (letter: string) => {
-    console.log(`log from Game - pressed ${letter}`);
     if (gameStatus !== "WON") {
       if (letter === "ENTER") {
         handleEnter();

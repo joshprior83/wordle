@@ -26,7 +26,6 @@ export function Keyboard({ keys, onKeyPress }: KeyboardProps) {
   );
   function handlePress(letter: string) {
     onKeyPress(letter);
-    console.log(`log from Keyboard - pressed ${letter}`);
   }
 
   return (

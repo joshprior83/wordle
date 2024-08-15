@@ -14,7 +14,6 @@ export default function Key({ letter, keyState, onKeyPress }: KeyProps) {
   const colorScheme = useColorScheme() ?? "light";
   function handlePress() {
     onKeyPress(letter);
-    console.log(`log from Key - pressed ${letter}`);
   }
   return (
     <Pressable
