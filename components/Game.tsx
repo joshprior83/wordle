@@ -10,10 +10,18 @@ import wordList from "../utils/5words.json";
 import LottieView from "lottie-react-native";
 import { isValid } from "@/utils/utils";
 
-export function Game() {
-  const word = useMemo(() => {
-    return wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
-  }, []);
+interface GameProps {
+  useWord?: string;
+}
+
+export function Game({ useWord }: GameProps) {
+  const word = useWord
+    ? useWord
+    : React.useMemo(() => {
+        return wordList[
+          Math.floor(Math.random() * wordList.length)
+        ].toUpperCase();
+      }, []);
   //const [word, setWord] = useState<string>("SALES");
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
@@ -95,6 +103,7 @@ export function Game() {
         textColor: "#151718",
         animation: true,
         opacity: 0.9,
+        accessibilityLabel: "not enough letters",
       });
     }
     if (currentGuess.length === 5) {
@@ -110,6 +119,7 @@ export function Game() {
             textColor: "#151718",
             animation: true,
             opacity: 0.9,
+            accessibilityLabel: "game lost",
           });
         }
       } else {
@@ -120,6 +130,7 @@ export function Game() {
           textColor: "#151718",
           animation: true,
           opacity: 0.9,
+          accessibilityLabel: "Not in word list",
         });
       }
     }
@@ -166,6 +177,7 @@ export function Game() {
           ref={confettiRef}
           loop={false}
           webStyle={styles.confetti}
+          testID="confetti"
         />
       )}
       <ThemedView style={styles.main}>

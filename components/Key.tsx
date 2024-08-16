@@ -18,6 +18,7 @@ export default function Key({ letter, keyState, onKeyPress }: KeyProps) {
   return (
     <Pressable
       onPress={handlePress}
+      testID={letter}
       style={[
         styles.key,
         {

@@ -13,6 +13,7 @@ export function Tile({ letter, tileState }: TileProps) {
   const colorScheme = useColorScheme() ?? "light";
   return (
     <ThemedView
+      accessibilityLabel="tile"
       style={[
         styles.container,
         {

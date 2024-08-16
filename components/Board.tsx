@@ -22,7 +22,11 @@ export function Board({ word, guesses, currentGuess }: BoardProps) {
     <ThemedView style={styles.container}>
       {/* existing Gussses */}
       {guesses.map((guess, index) => (
-        <ThemedView key={uuid.v4().toString()} style={styles.row}>
+        <ThemedView
+          key={uuid.v4().toString()}
+          style={styles.row}
+          accessibilityLabel="tileRow"
+        >
           {guesses[index].split("").map((letter, i) => (
             <Tile
               key={uuid.v4().toString()}
@@ -33,7 +37,7 @@ export function Board({ word, guesses, currentGuess }: BoardProps) {
         </ThemedView>
       ))}
       {/* Current Guess */}
-      <ThemedView style={styles.row}>
+      <ThemedView style={styles.row} accessibilityLabel="tileRow">
         {guesses.length !== 6 &&
           currentGuess
             .padEnd(5)
@@ -45,7 +49,11 @@ export function Board({ word, guesses, currentGuess }: BoardProps) {
       {/* Remaining guesses */}
       {guesses.length !== 6 &&
         [...Array(5 - guesses.length)].map((val, index) => (
-          <ThemedView key={index} style={styles.row}>
+          <ThemedView
+            key={index}
+            style={styles.row}
+            accessibilityLabel="tileRow"
+          >
             {""
               .padEnd(5)
               .split("")
