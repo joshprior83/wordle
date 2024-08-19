@@ -95,7 +95,7 @@ export function Game({ useWord }: GameProps) {
     if (currentGuess === word) {
       setGameStatus("WON");
     }
-    if (currentGuess.length !== 5) {
+    if (currentGuess.length !== 5 && guesses.length !== 6) {
       Toast.show("Not enough letters. 😐", {
         duration: Toast.durations.LONG,
         position: Toast.positions.TOP + 50,
@@ -106,7 +106,7 @@ export function Game({ useWord }: GameProps) {
         accessibilityLabel: "not enough letters",
       });
     }
-    if (currentGuess.length === 5) {
+    if (currentGuess.length === 5 && guesses.length !== 6) {
       if (isValid(currentGuess)) {
         setGuesses([...guesses, currentGuess]);
         setCurrentGuess("");
