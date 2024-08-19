@@ -1,8 +1,9 @@
 import * as React from "react";
-import { fireEvent, render, screen } from "@testing-library/react-native";
+import { render, screen, userEvent } from "@testing-library/react-native";
 
 import { Game } from "../Game";
 import { RootSiblingParent } from "react-native-root-siblings";
+jest.useFakeTimers();
 
 describe("Board tests", () => {
   it(`renders proper rows and tiles on app load`, async () => {
@@ -16,15 +17,15 @@ describe("Board tests", () => {
   it(`renders proper rows and tiles after a guess`, async () => {
     render(<Game />);
     const guess = "ANIME";
-    [...guess].forEach(async (key) => {
-      const letter = await screen.findByText(key);
-      fireEvent.press(letter);
-    });
+    for (let i = 0; i < guess.length; i++) {
+      const letter = await screen.findByTestId(guess[i]);
+      userEvent.press(letter);
+    }
     const enter = await screen.findByTestId("ENTER");
-    fireEvent.press(enter);
+    userEvent.press(enter);
     const tileRows = await screen.findAllByLabelText("tileRow");
     const tiles = await screen.findAllByLabelText("tile");
-    //console.log(tiles[0].props.children.props.children);
+
     expect(tiles[0].props.children.props.children).toBe("A");
     expect(tiles[1].props.children.props.children).toBe("N");
     expect(tiles[2].props.children.props.children).toBe("I");
@@ -43,9 +44,10 @@ describe("Toast tests", () => {
       </RootSiblingParent>
     );
     const q = await screen.findByTestId("Q");
+    userEvent.press(q);
     const enter = await screen.findByTestId("ENTER");
-    fireEvent.press(q);
-    fireEvent.press(enter);
+    userEvent.press(enter);
+
     const toast = await screen.findByLabelText("not enough letters");
     expect(toast).toBeDefined();
   });
@@ -57,14 +59,14 @@ describe("Toast tests", () => {
       </RootSiblingParent>
     );
     const guesses = ["ANIME", "ANIME", "ANIME", "ANIME", "ANIME", "ANIME"];
-    guesses.forEach(async (word) => {
-      [...word].forEach(async (key) => {
-        const letter = await screen.findByTestId(key);
-        fireEvent.press(letter);
-      });
+    for (const guess of guesses) {
+      for (let i = 0; i < guess.length; i++) {
+        const letter = await screen.findByTestId(guess[i]);
+        userEvent.press(letter);
+      }
       const enter = await screen.findByTestId("ENTER");
-      fireEvent.press(enter);
-    });
+      userEvent.press(enter);
+    }
     const toast = await screen.findByLabelText("game lost");
     expect(toast).toBeDefined();
   });
@@ -76,12 +78,12 @@ describe("Toast tests", () => {
       </RootSiblingParent>
     );
     const guess = "ABCDE";
-    [...guess].forEach(async (key) => {
-      const letter = await screen.findByTestId(key);
-      fireEvent.press(letter);
-    });
+    for (let i = 0; i < guess.length; i++) {
+      const letter = await screen.findByTestId(guess[i]);
+      userEvent.press(letter);
+    }
     const enter = await screen.findByText("ENTER");
-    fireEvent.press(enter);
+    userEvent.press(enter);
     const toast = await screen.findByLabelText("Not in word list");
     expect(toast).toBeDefined();
   });
@@ -91,12 +93,12 @@ describe("Confetti Tests", () => {
   it(`should render confetti if game is won`, async () => {
     render(<Game useWord={"ANIME"} />);
     const guess = "ANIME";
-    [...guess].forEach(async (key) => {
-      const letter = await screen.findByTestId(key);
-      fireEvent.press(letter);
-    });
+    for (let i = 0; i < guess.length; i++) {
+      const letter = await screen.findByTestId(guess[i]);
+      userEvent.press(letter);
+    }
     const enter = await screen.findByTestId("ENTER");
-    fireEvent.press(enter);
+    userEvent.press(enter);
     const confetti = await screen.findByTestId("confetti");
     expect(confetti).toBeDefined();
   });
