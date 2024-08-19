@@ -30,7 +30,7 @@ export function Keyboard({ keys, onKeyPress }: KeyboardProps) {
 
   return (
     <>
-      <ThemedView style={styles.container}>
+      <ThemedView style={styles.container} accessibilityLabel="keyboard">
         <ThemedView style={styles.row}>
           {keyRow1.map((val, index) => (
             <Key
