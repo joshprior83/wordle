@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { Tile } from "./Tile";
 import { tileState } from "@/utils/utils";
-import uuid from "react-native-uuid";
 
 interface BoardProps {
   word: string;
@@ -22,14 +21,10 @@ export function Board({ word, guesses, currentGuess }: BoardProps) {
     <ThemedView style={styles.container}>
       {/* existing Gussses */}
       {guesses.map((guess, index) => (
-        <ThemedView
-          key={uuid.v4().toString()}
-          style={styles.row}
-          accessibilityLabel="tileRow"
-        >
+        <ThemedView key={index} style={styles.row} accessibilityLabel="tileRow">
           {guesses[index].split("").map((letter, i) => (
             <Tile
-              key={uuid.v4().toString()}
+              key={i}
               letter={letter}
               tileState={tileState(word, guess, i)}
             />
