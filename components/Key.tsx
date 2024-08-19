@@ -19,24 +19,11 @@ export default function Key({ letter, keyState, onKeyPress }: KeyProps) {
     <Pressable
       onPress={handlePress}
       testID={letter}
-      style={[
-        styles.key,
-        {
-          backgroundColor:
-            Colors[colorScheme][keyState as keyof ColorSchemeName],
-          width: letter === "ENTER" || letter === "DEL" ? 53 : 35,
-        },
-      ]}
+      style={[styles(colorScheme, Colors, letter, keyState).key]}
     >
       <ThemedText
         type="subtitle"
-        style={[
-          styles.text,
-          {
-            color: Colors[colorScheme].text,
-            fontSize: letter === "ENTER" || letter === "DEL" ? 12 : 18,
-          },
-        ]}
+        style={[styles(colorScheme, Colors, letter, keyState).text]}
       >
         {letter === "DEL" ? (
           <View>
@@ -50,15 +37,23 @@ export default function Key({ letter, keyState, onKeyPress }: KeyProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  key: {
-    margin: 3,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 5,
-    width: 35,
-  },
-  text: {
-    fontSize: 18,
-  },
-});
+const styles = (
+  colorScheme: string,
+  Colors: any,
+  key: string,
+  keyState: string
+) =>
+  StyleSheet.create({
+    key: {
+      margin: 3,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 5,
+      backgroundColor: Colors[colorScheme][keyState as keyof ColorSchemeName],
+      width: key === "ENTER" || key === "DEL" ? 53 : 35,
+    },
+    text: {
+      color: Colors[colorScheme].text,
+      fontSize: key === "ENTER" || key === "DEL" ? 12 : 18,
+    },
+  });

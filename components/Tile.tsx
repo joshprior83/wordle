@@ -14,25 +14,11 @@ export function Tile({ letter, tileState }: TileProps) {
   return (
     <ThemedView
       accessibilityLabel="tile"
-      style={[
-        styles.container,
-        {
-          borderColor: Colors[colorScheme][tileState as keyof ColorSchemeName],
-          backgroundColor:
-            tileState !== "unused"
-              ? Colors[colorScheme][tileState as keyof ColorSchemeName]
-              : "none",
-        },
-      ]}
+      style={[styles(colorScheme, Colors, tileState).container]}
     >
       <ThemedText
         type="subtitle"
-        style={[
-          styles.tile,
-          {
-            color: Colors[colorScheme].text,
-          },
-        ]}
+        style={[styles(colorScheme, Colors, tileState).tile]}
       >
         {letter}
       </ThemedText>
@@ -40,16 +26,23 @@ export function Tile({ letter, tileState }: TileProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    width: 74,
-    height: 74,
-    borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 3,
-  },
-  tile: {
-    fontSize: 38,
-  },
-});
+const styles = (colorScheme: string, Colors: any, tileState: string) =>
+  StyleSheet.create({
+    container: {
+      width: 74,
+      height: 74,
+      borderWidth: 2,
+      alignItems: "center",
+      justifyContent: "center",
+      marginHorizontal: 3,
+      borderColor: Colors[colorScheme][tileState as keyof ColorSchemeName],
+      backgroundColor:
+        tileState !== "unused"
+          ? Colors[colorScheme][tileState as keyof ColorSchemeName]
+          : "none",
+    },
+    tile: {
+      fontSize: 38,
+      color: Colors[colorScheme].text,
+    },
+  });
