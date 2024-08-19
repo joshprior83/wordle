@@ -24,9 +24,6 @@ export function Keyboard({ keys, onKeyPress }: KeyboardProps) {
   const keyRow3: { key: string; row: number; style: string }[] = keys.filter(
     (val) => val.row === 3
   );
-  function handlePress(letter: string) {
-    onKeyPress(letter);
-  }
 
   return (
     <>
@@ -36,7 +33,7 @@ export function Keyboard({ keys, onKeyPress }: KeyboardProps) {
             <Key
               letter={val.key}
               keyState={val.style}
-              onKeyPress={handlePress}
+              onKeyPress={onKeyPress}
               key={index}
             />
           ))}
@@ -46,7 +43,7 @@ export function Keyboard({ keys, onKeyPress }: KeyboardProps) {
             <Key
               letter={val.key}
               keyState={val.style}
-              onKeyPress={handlePress}
+              onKeyPress={onKeyPress}
               key={index}
             />
           ))}
@@ -56,7 +53,7 @@ export function Keyboard({ keys, onKeyPress }: KeyboardProps) {
             <Key
               letter={val.key}
               keyState={val.style}
-              onKeyPress={handlePress}
+              onKeyPress={onKeyPress}
               key={index}
             />
           ))}
