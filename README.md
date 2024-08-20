@@ -40,3 +40,4 @@ In the output, you'll find options to open the app in a
 - Unlike the official NY Times game, you can play as many rounds as you like
   - Simply refresh the browser to get a new wordle
   - Pull down to refresh on Android or iOS to get a new wordle
+- The word list used was created from [this list](https://github.com/dolph/dictionary/blob/master/README.md) of popular words. I made this game for my kids so I wanted to make sure it used words they will likely know. Because it is for my kids I also removed inappropriate words for kids.
