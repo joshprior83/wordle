@@ -17,18 +17,16 @@ export default function Index() {
   }, []);
 
   return (
-    <React.StrictMode>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-        style={styles.container}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <Game key={id} />
-      </ScrollView>
-    </React.StrictMode>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.contentContainer}
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <Game key={id} />
+    </ScrollView>
   );
 }
 

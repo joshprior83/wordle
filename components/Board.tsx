@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { Tile } from "./Tile";
 import { tileState } from "@/utils/utils";
+import { FlipTile } from "./FlipTile";
 
 interface BoardProps {
   word: string;
@@ -22,13 +23,24 @@ export function Board({ word, guesses, currentGuess }: BoardProps) {
       {/* existing Gussses */}
       {guesses.map((guess, index) => (
         <ThemedView key={index} style={styles.row} accessibilityLabel="tileRow">
-          {guesses[index].split("").map((letter, i) => (
-            <Tile
-              key={i}
-              letter={letter}
-              tileState={tileState(word, guess, i)}
-            />
-          ))}
+          {guesses[index]
+            .split("")
+            .map((letter, i) =>
+              index === guesses.length - 1 ? (
+                <FlipTile
+                  key={i}
+                  letter={letter}
+                  tileState={tileState(word, guess, i)}
+                  index={i}
+                />
+              ) : (
+                <Tile
+                  key={i}
+                  letter={letter}
+                  tileState={tileState(word, guess, i)}
+                />
+              )
+            )}
         </ThemedView>
       ))}
       {/* Current Guess */}
