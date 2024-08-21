@@ -22,7 +22,6 @@ export function Game({ useWord }: GameProps) {
           Math.floor(Math.random() * wordList.length)
         ].toUpperCase();
       }, []);
-  //const [word, setWord] = useState<string>("SALES");
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [gameStatus, setGameStatus] = useState<string>("PLAYING");
@@ -67,14 +66,6 @@ export function Game({ useWord }: GameProps) {
     { key: "DEL", row: 3, style: KeyState.UNUSED },
   ]);
 
-  useEffect(() => {
-    if (gameStatus === "WON") {
-      if (confettiRef.current) {
-        confettiRef.current.play(0);
-      }
-    }
-  }, [gameStatus]);
-
   const handleKeyPress = (letter: string) => {
     if (gameStatus !== "WON") {
       if (letter === "ENTER") {
@@ -94,6 +85,9 @@ export function Game({ useWord }: GameProps) {
   function handleEnter() {
     if (currentGuess === word) {
       setGameStatus("WON");
+      if (confettiRef.current) {
+        confettiRef.current.play(0);
+      }
     }
     if (currentGuess.length !== 5 && guesses.length !== 6) {
       Toast.show("Not enough letters. 😐", {
@@ -170,7 +164,8 @@ export function Game({ useWord }: GameProps) {
 
   return (
     <>
-      {gameStatus === "WON" && (
+      <ThemedView style={styles.main}>
+        <Board word={word} guesses={guesses} currentGuess={currentGuess} />
         <LottieView
           style={styles.confetti}
           source={require("../assets/confetti.json")}
@@ -179,9 +174,6 @@ export function Game({ useWord }: GameProps) {
           webStyle={styles.confetti}
           testID="confetti"
         />
-      )}
-      <ThemedView style={styles.main}>
-        <Board word={word} guesses={guesses} currentGuess={currentGuess} />
       </ThemedView>
       <ThemedView style={styles.keyboard}>
         <Keyboard keys={keys} onKeyPress={handleKeyPress} />
@@ -208,6 +200,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1000,
     pointerEvents: "none",
-    height: "80%",
+    height: "100%",
   },
 });
