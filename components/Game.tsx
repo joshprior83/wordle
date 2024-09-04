@@ -86,7 +86,9 @@ export function Game({ useWord }: GameProps) {
     if (currentGuess === word) {
       setGameStatus("WON");
       if (confettiRef.current) {
-        confettiRef.current.play(0);
+        setTimeout(() => {
+          confettiRef?.current?.play(0);
+        }, 1800);
       }
     }
     if (currentGuess.length !== 5 && guesses.length !== 6) {
