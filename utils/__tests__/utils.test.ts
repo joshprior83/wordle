@@ -20,6 +20,13 @@ describe("tileState single letter tests", () => {
     expect(tileState(word, guess, index)).toBe(TileState.CORRECT);
   });
 
+  it(`present letter returns present`, () => {
+    const word: string = "SEVER";
+    const guess: string = "ANIME";
+    const index: number = 4; //"E"
+    expect(tileState(word, guess, index)).toBe(TileState.PRESENT);
+  });
+
   it(`incorrect letter returns absent`, () => {
     const word: string = "ANIME";
     const guess: string = "ABATE";
@@ -81,6 +88,15 @@ describe("tileState 2 duplicate letters in guess with 2 instances in word tests"
     const secondIndex: number = guess.indexOf("S", firstIndex + 1);
     expect(tileState(word, guess, firstIndex)).toBe(TileState.CORRECT);
     expect(tileState(word, guess, secondIndex)).toBe(TileState.PRESENT);
+  });
+
+  it(`first instance incorrect and second instance correct returns 1st:present, 2nd: correct`, () => {
+    const word: string = "SEVER";
+    const guess: string = "FREED";
+    const firstIndex: number = guess.indexOf("E");
+    const secondIndex: number = guess.indexOf("E", firstIndex + 1);
+    expect(tileState(word, guess, firstIndex)).toBe(TileState.PRESENT);
+    expect(tileState(word, guess, secondIndex)).toBe(TileState.CORRECT);
   });
 });
 

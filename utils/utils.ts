@@ -19,33 +19,26 @@ export function tileState(word: string, guess: string, i: number) {
   if (word[i] === guess[i]) {
     return TileState.CORRECT;
   }
-  if (word[i] !== guess[i]) {
-    if (word.includes(guess[i])) {
-      const guessOccurances = guess.split(guess[i]).length - 1;
-      const wordOccurances = word.split(guess[i]).length - 1;
-      // If x instance and instance <= wordOccurrence and next instance is NOT correct, show present
-      // Else show absent
-      if (guessOccurances > 1) {
-        if (occurance(guess, i) <= wordOccurances) {
-          const nextIndex: number = guess.indexOf(
-            guess[i],
-            guess.indexOf(guess[i]) + 1
-          );
-          //if another instance after this one AND it is not correct
-          if (nextIndex !== -1 && guess[i] !== word[nextIndex]) {
-            return TileState.PRESENT;
-          }
-          return TileState.ABSENT;
-        } else {
-          return TileState.ABSENT;
-        }
-      }
+  if (word.includes(guess[i])) {
+    const guessOccurances = guess.split(guess[i]).length - 1;
+    const wordOccurances = word.split(guess[i]).length - 1;
+    if (guessOccurances <= wordOccurances) {
       return TileState.PRESENT;
+    }
+    if (occurance(guess, i) <= wordOccurances) {
+      const nextIndex: number = guess.indexOf(
+        guess[i],
+        guess.indexOf(guess[i]) + 1
+      );
+      //if another instance after this one AND it is not correct
+      if (nextIndex !== -1 && guess[i] !== word[nextIndex]) {
+        return TileState.PRESENT;
+      }
     } else {
       return TileState.ABSENT;
     }
   }
-  return TileState.UNUSED;
+  return TileState.ABSENT;
 }
 
 function occurance(string: string, i: number): number {
