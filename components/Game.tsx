@@ -106,7 +106,9 @@ export function Game({ useWord }: GameProps) {
       if (isValid(currentGuess)) {
         setGuesses([...guesses, currentGuess]);
         setCurrentGuess("");
-        updateKeyboard();
+        setTimeout(() => {
+          updateKeyboard();
+        }, 2000);
         if (guesses.length === 5 && currentGuess !== word) {
           Toast.show(`Better luck next time. The word was ${word} 🤯`, {
             duration: Toast.durations.LONG,
