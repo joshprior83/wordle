@@ -27,12 +27,12 @@ describe("Board tests", () => {
     const tiles = await screen.findAllByLabelText("tile");
 
     expect(tiles[0].props.children.props.children).toBe("A");
-    expect(tiles[1].props.children.props.children).toBe("N");
-    expect(tiles[2].props.children.props.children).toBe("I");
-    expect(tiles[3].props.children.props.children).toBe("M");
-    expect(tiles[4].props.children.props.children).toBe("E");
+    expect(tiles[2].props.children.props.children).toBe("N");
+    expect(tiles[4].props.children.props.children).toBe("I");
+    expect(tiles[6].props.children.props.children).toBe("M");
+    expect(tiles[8].props.children.props.children).toBe("E");
     expect(tileRows.length).toBe(6);
-    expect(tiles.length).toBe(30);
+    expect(tiles.length).toBe(35);
   });
 });
 
