@@ -114,7 +114,7 @@ describe("tileState 3 duplicate letters in guess with 1 instance in word tests",
 });
 
 describe("tileState 3 duplicate letters in guess with 2 instance in word tests", () => {
-  it(`3 occurances in gues, 2 in word, first instance is correct and 2nd and 3rd are incorrect returns 1:correct, 2:present, and 3:absent`, () => {
+  it(`3 occurances in guess, 2 in word, first instance is correct and 2nd and 3rd are incorrect returns 1:correct, 2:present, and 3:absent`, () => {
     const word: string = "SALES";
     const guess: string = "SASSY";
     const firstIndex: number = guess.indexOf("S");
@@ -123,5 +123,16 @@ describe("tileState 3 duplicate letters in guess with 2 instance in word tests",
     expect(tileState(word, guess, firstIndex)).toBe(TileState.CORRECT);
     expect(tileState(word, guess, secondIndex)).toBe(TileState.PRESENT);
     expect(tileState(word, guess, thirdIndex)).toBe(TileState.ABSENT);
+  });
+
+  it(`3 occurances in guess, 2 in word, first instance is correct, 2nd incorrect, and 3rd correct returns 1:correct, 2:absent, and 3:correct`, () => {
+    const word: string = "VERSE";
+    const guess: string = "GEESE";
+    const firstIndex: number = guess.indexOf("E");
+    const secondIndex: number = guess.indexOf("E", firstIndex + 1);
+    const thirdIndex: number = guess.indexOf("E", secondIndex + 1);
+    expect(tileState(word, guess, firstIndex)).toBe(TileState.CORRECT);
+    expect(tileState(word, guess, secondIndex)).toBe(TileState.ABSENT);
+    expect(tileState(word, guess, thirdIndex)).toBe(TileState.CORRECT);
   });
 });

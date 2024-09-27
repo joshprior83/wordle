@@ -26,12 +26,9 @@ export function tileState(word: string, guess: string, i: number) {
       return TileState.PRESENT;
     }
     if (occurance(guess, i) <= wordOccurances) {
-      const nextIndex: number = guess.indexOf(
-        guess[i],
-        guess.indexOf(guess[i]) + 1
-      );
-      //if another instance after this one AND it is not correct
-      if (nextIndex !== -1 && guess[i] !== word[nextIndex]) {
+      if (correctCount(word, guess, i) == wordOccurances) {
+        return TileState.ABSENT;
+      } else {
         return TileState.PRESENT;
       }
     } else {
@@ -43,4 +40,14 @@ export function tileState(word: string, guess: string, i: number) {
 
 function occurance(string: string, i: number): number {
   return string.substring(0, i + 1).split(string[i]).length - 1;
+}
+
+function correctCount(word: string, guess: string, i: number): number {
+  const cc = guess.split("").reduce((acc, curr, index) => {
+    return word[index] == guess[index] && word[index] == guess[i]
+      ? acc + 1
+      : acc;
+    //return accumulator + currentValue + index;
+  }, 0);
+  return cc;
 }
