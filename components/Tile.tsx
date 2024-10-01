@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { StyleSheet, ColorSchemeName } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "./ThemedText";
@@ -9,7 +10,7 @@ interface TileProps {
   tileState: string;
 }
 
-export function Tile({ letter, tileState }: TileProps) {
+export const Tile = memo(function Tile({ letter, tileState }: TileProps) {
   const colorScheme = useColorScheme() ?? "light";
   return (
     <ThemedView
@@ -24,7 +25,7 @@ export function Tile({ letter, tileState }: TileProps) {
       </ThemedText>
     </ThemedView>
   );
-}
+});
 
 const styles = (colorScheme: string, Colors: any, tileState: string) =>
   StyleSheet.create({
