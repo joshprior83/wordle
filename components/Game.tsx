@@ -14,6 +14,16 @@ interface GameProps {
   useWord?: string;
 }
 
+const toastConfig = {
+  duration: Toast.durations.LONG,
+  position: Toast.positions.TOP + 50,
+  backgroundColor: "#fff",
+  textColor: "#151718",
+  animation: true,
+  opacity: 0.9,
+  accessibilityLabel: "",
+};
+
 export function Game({ useWord }: GameProps) {
   const word = useWord
     ? useWord
@@ -93,12 +103,7 @@ export function Game({ useWord }: GameProps) {
     }
     if (currentGuess.length !== 5 && guesses.length !== 6) {
       Toast.show("Not enough letters. 😐", {
-        duration: Toast.durations.LONG,
-        position: Toast.positions.TOP + 50,
-        backgroundColor: "#fff",
-        textColor: "#151718",
-        animation: true,
-        opacity: 0.9,
+        ...toastConfig,
         accessibilityLabel: "not enough letters",
       });
     }
@@ -111,23 +116,13 @@ export function Game({ useWord }: GameProps) {
         }, 2000);
         if (guesses.length === 5 && currentGuess !== word) {
           Toast.show(`Better luck next time. The word was ${word} 🤯`, {
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP + 50,
-            backgroundColor: "#fff",
-            textColor: "#151718",
-            animation: true,
-            opacity: 0.9,
+            ...toastConfig,
             accessibilityLabel: "game lost",
           });
         }
       } else {
         Toast.show("Not in word list. 🤔", {
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP + 50,
-          backgroundColor: "#fff",
-          textColor: "#151718",
-          animation: true,
-          opacity: 0.9,
+          ...toastConfig,
           accessibilityLabel: "Not in word list",
         });
       }
@@ -147,8 +142,7 @@ export function Game({ useWord }: GameProps) {
         let keyIndex = keys.findIndex((x) => x.key === currentGuess[i]);
         newKeys[keyIndex].style = KeyState.CORRECT;
         setKeys(newKeys);
-      }
-      if (word[i] !== currentGuess[i]) {
+      } else {
         if (word.includes(currentGuess[i])) {
           let newKeys = [...keys];
           let keyIndex = newKeys.findIndex((x) => x.key === currentGuess[i]);
