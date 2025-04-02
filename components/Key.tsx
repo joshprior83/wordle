@@ -10,7 +10,7 @@ interface KeyProps {
   onKeyPress: Function;
 }
 
-export default function Key({ letter, keyState, onKeyPress }: KeyProps) {
+export function Key({ letter, keyState, onKeyPress }: KeyProps) {
   const colorScheme = useColorScheme() ?? "light";
   function handlePress() {
     onKeyPress(letter);

@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
-import Key from "./Key";
+import { Key } from "./Key";
+import React from "react";
 
 interface KeyboardProps {
   keys: { key: string; row: number; style: string }[];
