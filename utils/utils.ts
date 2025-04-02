@@ -7,6 +7,13 @@ export const enum TileState {
   CORRECT = "correct",
 }
 
+const enum KeyState {
+  UNUSED = "unused",
+  ABSENT = "absent",
+  PRESENT = "present",
+  CORRECT = "correct",
+}
+
 export function isValid(guess: string): boolean {
   const startTime = performance.now();
   const valid = wordList.includes(guess.toLowerCase());
@@ -51,3 +58,40 @@ function correctCount(word: string, guess: string, i: number): number {
   }, 0);
   return cc;
 }
+
+interface Key {
+  key: string;
+  row: number;
+  style: string;
+}
+
+export const defaultKeys: Key[] = [
+  { key: "Q", row: 1, style: KeyState.UNUSED },
+  { key: "W", row: 1, style: KeyState.UNUSED },
+  { key: "E", row: 1, style: KeyState.UNUSED },
+  { key: "R", row: 1, style: KeyState.UNUSED },
+  { key: "T", row: 1, style: KeyState.UNUSED },
+  { key: "Y", row: 1, style: KeyState.UNUSED },
+  { key: "U", row: 1, style: KeyState.UNUSED },
+  { key: "I", row: 1, style: KeyState.UNUSED },
+  { key: "O", row: 1, style: KeyState.UNUSED },
+  { key: "P", row: 1, style: KeyState.UNUSED },
+  { key: "A", row: 2, style: KeyState.UNUSED },
+  { key: "S", row: 2, style: KeyState.UNUSED },
+  { key: "D", row: 2, style: KeyState.UNUSED },
+  { key: "F", row: 2, style: KeyState.UNUSED },
+  { key: "G", row: 2, style: KeyState.UNUSED },
+  { key: "H", row: 2, style: KeyState.UNUSED },
+  { key: "J", row: 2, style: KeyState.UNUSED },
+  { key: "K", row: 2, style: KeyState.UNUSED },
+  { key: "L", row: 2, style: KeyState.UNUSED },
+  { key: "ENTER", row: 3, style: KeyState.UNUSED },
+  { key: "Z", row: 3, style: KeyState.UNUSED },
+  { key: "X", row: 3, style: KeyState.UNUSED },
+  { key: "C", row: 3, style: KeyState.UNUSED },
+  { key: "V", row: 3, style: KeyState.UNUSED },
+  { key: "B", row: 3, style: KeyState.UNUSED },
+  { key: "N", row: 3, style: KeyState.UNUSED },
+  { key: "M", row: 3, style: KeyState.UNUSED },
+  { key: "DEL", row: 3, style: KeyState.UNUSED },
+];

@@ -8,7 +8,7 @@ import { Board } from "@/components/Board";
 import Toast from "react-native-root-toast";
 import wordList from "../utils/5words.json";
 import LottieView from "lottie-react-native";
-import { isValid } from "@/utils/utils";
+import { defaultKeys, isValid } from "@/utils/utils";
 
 interface GameProps {
   useWord?: string;
@@ -43,38 +43,8 @@ export function Game({ useWord }: GameProps) {
     CORRECT = "correct",
   }
 
-  const [keys, setKeys] = useState<
-    { key: string; row: number; style: string }[]
-  >([
-    { key: "Q", row: 1, style: KeyState.UNUSED },
-    { key: "W", row: 1, style: KeyState.UNUSED },
-    { key: "E", row: 1, style: KeyState.UNUSED },
-    { key: "R", row: 1, style: KeyState.UNUSED },
-    { key: "T", row: 1, style: KeyState.UNUSED },
-    { key: "Y", row: 1, style: KeyState.UNUSED },
-    { key: "U", row: 1, style: KeyState.UNUSED },
-    { key: "I", row: 1, style: KeyState.UNUSED },
-    { key: "O", row: 1, style: KeyState.UNUSED },
-    { key: "P", row: 1, style: KeyState.UNUSED },
-    { key: "A", row: 2, style: KeyState.UNUSED },
-    { key: "S", row: 2, style: KeyState.UNUSED },
-    { key: "D", row: 2, style: KeyState.UNUSED },
-    { key: "F", row: 2, style: KeyState.UNUSED },
-    { key: "G", row: 2, style: KeyState.UNUSED },
-    { key: "H", row: 2, style: KeyState.UNUSED },
-    { key: "J", row: 2, style: KeyState.UNUSED },
-    { key: "K", row: 2, style: KeyState.UNUSED },
-    { key: "L", row: 2, style: KeyState.UNUSED },
-    { key: "ENTER", row: 3, style: KeyState.UNUSED },
-    { key: "Z", row: 3, style: KeyState.UNUSED },
-    { key: "X", row: 3, style: KeyState.UNUSED },
-    { key: "C", row: 3, style: KeyState.UNUSED },
-    { key: "V", row: 3, style: KeyState.UNUSED },
-    { key: "B", row: 3, style: KeyState.UNUSED },
-    { key: "N", row: 3, style: KeyState.UNUSED },
-    { key: "M", row: 3, style: KeyState.UNUSED },
-    { key: "DEL", row: 3, style: KeyState.UNUSED },
-  ]);
+  const [keys, setKeys] =
+    useState<{ key: string; row: number; style: string }[]>(defaultKeys);
 
   const handleKeyPress = (letter: string) => {
     if (gameStatus !== "WON") {
