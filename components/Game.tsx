@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { ThemedView } from "@/components/ThemedView";
 
 import { Keyboard } from "@/components/Keyboard";
 import { Board } from "@/components/Board";
+import { DefinitionModal } from "@/components/DefinitionModal";
 import Toast from "react-native-root-toast";
 import wordList from "../utils/5words.json";
 import LottieView from "lottie-react-native";
@@ -24,6 +25,8 @@ const toastConfig = {
   accessibilityLabel: "",
 };
 
+const promptDelay: number = 1800;
+
 export function Game({ useWord }: GameProps) {
   const word = useWord
     ? useWord
@@ -35,16 +38,18 @@ export function Game({ useWord }: GameProps) {
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [gameStatus, setGameStatus] = useState<string>("PLAYING");
+  const [definition, setDefinition] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
   const confettiRef = useRef<LottieView>(null);
+  const [keys, setKeys] = useState<
+    { key: string; row: number; style: string }[]
+  >(JSON.parse(JSON.stringify(defaultKeys)));
   const enum KeyState {
     UNUSED = "unused",
     ABSENT = "absent",
     PRESENT = "present",
     CORRECT = "correct",
   }
-
-  const [keys, setKeys] =
-    useState<{ key: string; row: number; style: string }[]>(defaultKeys);
 
   const handleKeyPress = (letter: string) => {
     if (gameStatus !== "WON") {
@@ -71,6 +76,19 @@ export function Game({ useWord }: GameProps) {
         }, 1800);
       }
     }
+    //fetch definition after 5th guess
+    if (guesses.length == 4 && currentGuess !== word) {
+      fetchDefinition();
+      Toast.show("Tap here for a hint", {
+        ...toastConfig,
+        duration: 6000,
+        delay: promptDelay,
+        onPress: () => {
+          setModalVisible(true);
+        },
+        accessibilityLabel: "tap for hint",
+      });
+    }
     if (currentGuess.length !== 5 && guesses.length !== 6) {
       Toast.show("Not enough letters. 😐", {
         ...toastConfig,
@@ -85,10 +103,15 @@ export function Game({ useWord }: GameProps) {
           updateKeyboard();
         }, 2000);
         if (guesses.length === 5 && currentGuess !== word) {
-          Toast.show(`Better luck next time. The word was ${word} 🤯`, {
-            ...toastConfig,
-            accessibilityLabel: "game lost",
-          });
+          Toast.show(
+            `Better luck next time. The word was ${word}: \n ${definition} 🤯`,
+            {
+              ...toastConfig,
+              delay: promptDelay,
+              duration: 5000,
+              accessibilityLabel: "game lost",
+            }
+          );
         }
       } else {
         Toast.show("Not in word list. 🤔", {
@@ -130,8 +153,35 @@ export function Game({ useWord }: GameProps) {
     }
   }
 
+  const fetchDefinition = async () => {
+    if (!word.trim()) return;
+    try {
+      const response = await fetch(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+      );
+      const data = await response.json();
+      if (data && Array.isArray(data) && data.length > 0) {
+        setDefinition(data[0].meanings[0].definitions[0].definition);
+      } else {
+        setDefinition("Definition not found.");
+      }
+    } catch (err) {
+      console.error(`error retrieving definition: ${err}`);
+    }
+  };
+
+  function handleModalClose() {
+    setModalVisible(false);
+  }
+
   return (
     <>
+      <DefinitionModal
+        definition={definition}
+        modalVisible={modalVisible}
+        onKeyPress={() => setModalVisible(false)}
+      />
+
       <ThemedView style={styles.main}>
         <Board word={word} guesses={guesses} currentGuess={currentGuess} />
         <LottieView
@@ -143,6 +193,7 @@ export function Game({ useWord }: GameProps) {
           testID="confetti"
         />
       </ThemedView>
+
       <ThemedView style={styles.keyboard}>
         <Keyboard keys={keys} onKeyPress={handleKeyPress} />
       </ThemedView>
@@ -152,8 +203,8 @@ export function Game({ useWord }: GameProps) {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 0.73,
-    paddingTop: 50,
+    flex: 0.75,
+    //paddingTop: 50,
     zIndex: 1,
   },
   keyboard: {
