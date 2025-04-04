@@ -80,7 +80,7 @@ export function Board({ word, guesses, currentGuess }: BoardProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //paddingTop: 50,
+    justifyContent: "center",
   },
   row: {
     flexDirection: "row",

@@ -204,7 +204,6 @@ export function Game({ useWord }: GameProps) {
 const styles = StyleSheet.create({
   main: {
     flex: 0.75,
-    //paddingTop: 50,
     zIndex: 1,
   },
   keyboard: {

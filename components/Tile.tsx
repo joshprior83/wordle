@@ -30,8 +30,8 @@ export const Tile = memo(function Tile({ letter, tileState }: TileProps) {
 const styles = (colorScheme: string, Colors: any, tileState: string) =>
   StyleSheet.create({
     container: {
-      width: 74,
-      height: 74,
+      width: 70,
+      height: 70,
       borderWidth: 2,
       alignItems: "center",
       justifyContent: "center",
