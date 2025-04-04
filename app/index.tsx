@@ -1,4 +1,9 @@
-import { RefreshControl, ScrollView, StyleSheet } from "react-native";
+import {
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import React, { useState } from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Game } from "@/components/Game";
@@ -17,16 +22,18 @@ export default function Index() {
   }, []);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.contentContainer}
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <Game key={id} />
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainer}
+        style={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <Game key={id} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
