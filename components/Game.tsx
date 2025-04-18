@@ -9,7 +9,7 @@ import { DefinitionModal } from "@/components/DefinitionModal";
 import Toast from "react-native-root-toast";
 import wordList from "../utils/5words.json";
 import LottieView from "lottie-react-native";
-import { defaultKeys, isValid } from "@/utils/utils";
+import { defaultKeys, isValid, KeyState } from "@/utils/utils";
 
 interface GameProps {
   useWord?: string;
@@ -44,12 +44,6 @@ export function Game({ useWord }: GameProps) {
   const [keys, setKeys] = useState<
     { key: string; row: number; style: string }[]
   >(JSON.parse(JSON.stringify(defaultKeys)));
-  const enum KeyState {
-    UNUSED = "unused",
-    ABSENT = "absent",
-    PRESENT = "present",
-    CORRECT = "correct",
-  }
 
   const handleKeyPress = (letter: string) => {
     if (gameStatus !== "WON") {

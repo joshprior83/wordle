@@ -7,7 +7,7 @@ export const enum TileState {
   CORRECT = "correct",
 }
 
-const enum KeyState {
+export const enum KeyState {
   UNUSED = "unused",
   ABSENT = "absent",
   PRESENT = "present",

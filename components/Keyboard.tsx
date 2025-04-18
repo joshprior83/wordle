@@ -9,13 +9,6 @@ interface KeyboardProps {
 }
 
 export function Keyboard({ keys, onKeyPress }: KeyboardProps) {
-  const enum KeyState {
-    UNUSED = "unused",
-    ABSENT = "absent",
-    PRESENT = "present",
-    CORRECT = "correct",
-  }
-
   const keyRow1: { key: string; row: number; style: string }[] = keys.filter(
     (val) => val.row === 1
   );
